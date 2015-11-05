@@ -4,28 +4,22 @@
 from random import randint
 import sys
 
-def choisirunnombre():
-	return input("Choix effectué. Veillez entrer votre choix de nombre:")
+play_again = True
 
-def verifier(choix, adeviner):
-	if(choix < adeviner):
-		print str(choix) + " est inférieur au nombre à trouver"
-		choix = int(choisirunnombre())
-		verifier(choix, adeviner)
+def user_choose_number():
+	return int(raw_input("Choix effectué. Veuillez entrer votre choix de nombre : "))
 
-	elif(choix > adeviner):
-		print str(choix) + " est supérieur au nombre à trouver"
-		choix = int(choisirunnombre())
-		verifier(choix, adeviner)
+def check_if_matches(choosen_number, number_to_find):
+	if choosen_number < number_to_find:
+		print str(choosen_number) + " est inférieur au nombre à trouver"
 
-	elif choix == adeviner :
+	elif choosen_number > number_to_find:
+		print str(choosen_number) + " est supérieur au nombre à trouver"
+
+	else:
 		print "Champion ! Tu as trouvé !"
-		rejouer = raw_input("Veux-tu rejouer ? y pour Oui, n pour non")
-		if rejouer == "y":
-			plusoumoins()
-		else:
-			print "Merci d'avoir joué, à bientôt !"
-			sys.exit()
+		return True
+
 
 def plusoumoins():
 	print "Jeu du plus ou moins"
@@ -34,10 +28,22 @@ def plusoumoins():
 	print "******** - *********"
 	print "Choix en cours..."
 
-	adeviner = randint(0, 300)
-	choix = int(choisirunnombre())
-	verifier(choix, adeviner)
+	number_to_find = randint(0, 300)
 
-plusoumoins()
+	found = False
+
+	while not found :
+		choosen_number = user_choose_number()
+		found = check_if_matches(choosen_number, number_to_find)
+
+	rejouer = raw_input("Veux-tu rejouer ? y pour oui, n pour non ")
+	if rejouer != 'y':
+		print "Merci d'avoir joué, à bientôt !"
+		return False
+	else:
+		return True
+
+while play_again:
+	play_again = plusoumoins()
 
 
